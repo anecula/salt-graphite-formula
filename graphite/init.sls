@@ -1,0 +1,2 @@
+include:
+  - graphite.server

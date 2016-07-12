@@ -1,0 +1,22 @@
+[Unit]
+Description=Graphite Carbon Cache
+After=syslog.target network.target
+
+{% set DAEMON = settings['home'] + "/bin/carbon-cache.py" %}
+{% set RUNDIR = "graphite" %}
+{% set PIDFILE = "/run/" + RUNDIR + "/carbon-cache.pid" %}
+
+[Service]
+Type=forking
+User={{ settings.user }}
+Group={{ settings.group }}
+ExecStart={{ DAEMON }} --pidfile {{ PIDFILE }} start
+ExecStop={{ DAEMON }} --pidfile {{ PIDFILE }} stop
+RuntimeDirectory={{ RUNDIR }}
+PIDFile={{ PIDFILE }}
+PrivateTmp=true
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
