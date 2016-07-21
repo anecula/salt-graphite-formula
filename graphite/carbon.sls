@@ -9,28 +9,7 @@ carbon-dependencies:
       # install whisper system-wide
       - whisper
     - require:
-      - graphite-common-dependencies
-
-carbon-group:
-  group.present:
-    - name: {{ settings.group }}
-
-carbon-user:
-  user.present:
-    - name: {{ settings.user }}
-    - gid: {{ settings.group }}
-    - home: {{ settings.home }}
-    - require:
-      - carbon-group
-
-carbon-virtualenv:
-  virtualenv.managed:
-    - name: {{ settings.home }}
-    - system_site_packages: true
-    - user: {{ settings.user }}
-    - require:
-      - carbon-user
-      - carbon-dependencies
+      - graphite-dependencies
 
 carbon-install:
   pip.installed:
@@ -45,7 +24,8 @@ carbon-install:
     - install_options:
         - --install-lib={{ settings.home }}/lib/python2.7/site-packages
     - require:
-      - carbon-virtualenv
+      - graphite-virtualenv
+      - carbon-dependencies
 
 {% set service_file = "/etc/systemd/system/carbon.service" %}
 
@@ -56,6 +36,8 @@ carbon-service:
     - template: jinja
     - context:
         settings: {{ settings|json }}
+    - require:
+      - carbon-install
   module.wait:
     - name: service.systemctl_reload
     - watch:
