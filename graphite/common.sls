@@ -1,8 +1,13 @@
-# {% if grains['os_family'] == 'RedHat' %}
-# include:
-#   - epel
-# {% endif %}
- 
+include:
+{% if grains['os_family'] == 'RedHat' %}
+  - epel
+{% endif %}
+  - pip
+  - pip.extensions
+
 graphite-common-dependencies:
-  pkg.installed:
-    - name: python-pip
+  pip.installed:
+    - pkgs:
+      - virtualenv
+    - require:
+      - pip

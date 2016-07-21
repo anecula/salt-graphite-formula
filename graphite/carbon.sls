@@ -6,15 +6,10 @@ include:
 carbon-dependencies:
   pip.installed:
     - pkgs:
-      - virtualenv
       # install whisper system-wide
       - whisper
     - require:
       - graphite-common-dependencies
-  pkg.installed:
-    - pkgs:
-      - gcc
-      - {{ settings.packages['python-dev'] }}
 
 carbon-group:
   group.present:
