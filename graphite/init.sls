@@ -1,2 +1,2 @@
 include:
-  - graphite.server
+  - graphite.carbon

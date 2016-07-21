@@ -3,7 +3,7 @@ Description=Graphite Carbon Cache
 After=syslog.target network.target
 
 {% set DAEMON = settings['home'] + "/bin/carbon-cache.py" %}
-{% set RUNDIR = "graphite" %}
+{% set RUNDIR = "graphite-carbon" %}
 {% set PIDFILE = "/run/" + RUNDIR + "/carbon-cache.pid" %}
 
 [Service]

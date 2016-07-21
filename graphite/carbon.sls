@@ -52,12 +52,12 @@ carbon-install:
     - require:
       - carbon-virtualenv
 
-{% set service_file = "/etc/systemd/system/graphite.service" %}
+{% set service_file = "/etc/systemd/system/carbon.service" %}
 
 carbon-service:
   file.managed:
     - name: {{ service_file }}
-    - source: salt://graphite/files/graphite.service
+    - source: salt://graphite/files/carbon.service
     - template: jinja
     - context:
         settings: {{ settings|json }}
@@ -66,7 +66,7 @@ carbon-service:
     - watch:
       - file: {{ service_file }}
   service.running:
-    - name: graphite.service
+    - name: carbon.service
     - enable: True
     - require:
       - file: {{ service_file }}
