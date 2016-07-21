@@ -2,11 +2,7 @@ default:
   home: /opt/graphite
   user: graphite
   group: graphite
-  packages:
-    python-dev: python-dev
 
-RedHat:
-  packages:
-    python-dev: python-devel
+RedHat: {}
 
 Debian: {}
