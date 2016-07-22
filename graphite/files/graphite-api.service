@@ -1,0 +1,29 @@
+[Unit]
+Description=Graphite API
+After=syslog.target network.target
+# TODO: make this socket-activated?
+
+{% set DAEMON = settings['home'] + "/bin/gunicorn" %}
+{% set RUNDIR = "graphite-api" %}
+{% set PIDFILE = "/run/" + RUNDIR + "/gunicorn.pid" %}
+{% set CONFIGFILE = settings['home'] + "/conf/graphite-api.yaml" %}
+
+[Service]
+Type=simple
+User={{ settings.user }}
+Group={{ settings.group }}
+Environment="GRAPHITE_API_CONFIG={{ CONFIGFILE }}"
+# TODO: make this stuff configurable
+ExecStart={{ DAEMON }} --pid {{ PIDFILE }} \
+                       --workers 2 --bind 127.0.0.1:8090 \
+                       graphite_api.app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+RuntimeDirectory={{ RUNDIR }}
+PIDFile={{ PIDFILE }}
+PrivateTmp=true
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
