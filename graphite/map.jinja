@@ -5,3 +5,7 @@
     base='default',
     merge=salt['pillar.get']('graphite:lookup')
 ) %}
+
+{% do settings.update({
+    'conf_dir': salt['file.join'](settings['home'], "conf"),
+}) %}
