@@ -27,15 +27,18 @@ carbon-install:
       - graphite-virtualenv
       - carbon-dependencies
 
-{% set service_file = "/etc/systemd/system/carbon.service" %}
 
-carbon-service:
+{% for daemon in ['cache', 'aggregator'] %}
+{% set service_file = "/etc/systemd/system/carbon-" + daemon + ".service" %}
+
+carbon-{{ daemon }}-service:
   file.managed:
     - name: {{ service_file }}
     - source: salt://graphite/files/carbon.service
     - template: jinja
     - context:
         settings: {{ settings|json }}
+        daemon: {{ daemon }}
     - require:
       - carbon-install
   module.wait:
@@ -43,9 +46,11 @@ carbon-service:
     - watch:
       - file: {{ service_file }}
   service.running:
-    - name: carbon.service
+    - name: carbon-{{ daemon }}.service
     - enable: True
     - require:
       - file: {{ service_file }}
     - watch:
       - file: {{ service_file }}
+
+{% endfor %}
