@@ -2,9 +2,9 @@
 Description=Graphite Carbon {{ daemon|capitalize }}
 After=syslog.target network.target
 
-{% set DAEMON = settings['home'] + "/bin/carbon-" + daemon + ".py" %}
-{% set RUNDIR = "graphite-carbon-" + daemon %}
-{% set PIDFILE = "/run/" + RUNDIR + "/carbon-" + daemon + ".pid" %}
+{% set DAEMON = settings['home'] + "/bin/carbon-" + daemon + ".py" -%}
+{% set RUNDIR = "graphite-carbon-" + daemon -%}
+{% set PIDFILE = "/run/" + RUNDIR + "/carbon-" + daemon + ".pid" -%}
 
 [Service]
 Type=forking

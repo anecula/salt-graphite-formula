@@ -3,10 +3,10 @@ Description=Graphite API
 After=syslog.target network.target
 # TODO: make this socket-activated?
 
-{% set DAEMON = settings['home'] + "/bin/gunicorn" %}
-{% set RUNDIR = "graphite-api" %}
-{% set PIDFILE = "/run/" + RUNDIR + "/gunicorn.pid" %}
-{% set CONFIGFILE = settings['home'] + "/conf/graphite-api.yaml" %}
+{% set DAEMON = settings['home'] + "/bin/gunicorn" -%}
+{% set RUNDIR = "graphite-api" -%}
+{% set PIDFILE = "/run/" + RUNDIR + "/gunicorn.pid" -%}
+{% set CONFIGFILE = settings['home'] + "/conf/graphite-api.yaml" -%}
 
 [Service]
 Type=simple
