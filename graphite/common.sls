@@ -1,9 +1,9 @@
 {% from "graphite/map.jinja" import settings with context %}
 
 include:
-{% if grains['os_family'] == 'RedHat' %}
-  - epel
-{% endif %}
+#{% if grains['os_family'] == 'RedHat' %}
+#  - epel
+#{% endif %}
   - pip
   - pip.extensions
 
