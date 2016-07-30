@@ -6,7 +6,7 @@ After=syslog.target network.target
 {% set DAEMON = settings['home'] + "/bin/gunicorn" -%}
 {% set RUNDIR = "graphite-api" -%}
 {% set PIDFILE = "/run/" + RUNDIR + "/gunicorn.pid" -%}
-{% set CONFIGFILE = settings['home'] + "/conf/graphite-api.yaml" -%}
+{% set CONFIGFILE = settings['conf_dir'] + "/graphite-api.yaml" -%}
 
 [Service]
 Type=simple

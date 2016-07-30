@@ -31,7 +31,7 @@ graphite-api-install:
 
 {% set service_file = "/etc/systemd/system/graphite-api.service" %}
 
-api-service:
+graphite-api-service-file:
   file.managed:
     - name: {{ service_file }}
     - source: salt://graphite/files/graphite-api.service
@@ -44,11 +44,27 @@ api-service:
     - name: service.systemctl_reload
     - watch:
       - file: {{ service_file }}
-      - pip: graphite-api-install
+
+{% set config_file = settings['conf_dir'] + "/graphite-api.yaml" %}
+
+graphite-api-config:
+  file.managed:
+    - name: {{ config_file }}
+    - source: salt://graphite/files/graphite-api.yaml
+    - template: jinja
+    - context:
+        settings: {{ settings|json }}
+    - require:
+        - graphite-api-install
+
+graphite-api-service:
   service.running:
     - name: graphite-api.service
     - enable: True
     - require:
-      - file: {{ service_file }}
+      - graphite-api-service-file
+      - graphite-api-config
     - watch:
-      - file: {{ service_file }}
+      - pip: graphite-api-install
+      - file: graphite-api-service-file
+      - file: graphite-api-config
